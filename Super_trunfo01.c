@@ -1,4 +1,4 @@
-#include <stdio.h>
+ #include <stdio.h>
 
 struct carta //criando o modelo das cartas 
 
@@ -56,11 +56,24 @@ dos casos que satisfazem a condição dos parenteses*/
 	scanf("%f", &baralho[i].area);
 	 
     //cálculo de variáveis derivadas
-    
-    baralho[i].densidade = baralho[i].populacao / baralho[i].area;
-    
+
+	if(baralho[i].area > 0) //evita erros por dividir por zero	
+{
+  baralho[i].densidade = baralho[i].populacao / baralho[i].area;
+}
+ else
+{ 
+  baralho[i].densidade = 0; // zeramos a densidade por ter um valor inválido de área
+}
+	if(baralho[i].populacao > 0)
+	{		
     baralho[i].pibpercapita = baralho[i].pib / baralho[i].populacao;
-    
+	}
+
+	else
+	{
+	  baralho[i].pibpercapita = 0; //zeramos o pibpercapita por ter um valor de população inválido
+	}
     
 }
 
