@@ -30,28 +30,35 @@ int i = 0;
 
    printf("\nDigite o codigo da cidade: ");
    scanf("%d",&baralho[i].codigo);
-   
-   while( getchar() != '\n'); //um truque para evitar os buffers
 
    printf("\nDigite o nome da cidade: ");
    fgets(baralho[i].cidade, 49, stdin); //aqui usei fgets para caso tenha espaço no nome
 
+   while( getchar() != '\n'); //um truque para evitar os buffers
+
    printf("\nDigite a populacao da cidade: ");
    scanf("%f",&baralho[i].populacao);
    
-   printf("\nDigite o PIB da cidade: ");
+   while(getchar() != '\n');
+
+   printf("\nDigite o PIB da cidade (em dolares): ");
    scanf("%f",&baralho[i].pib);
+
+   while(getchar() != '\n');
 
    printf("\nDigite a area da cidade: ");
    scanf("%f",&baralho[i].area);
 
+   while(getchar() != '\n');
+
    printf("\nDigite a quantidade de pontos turisticos da cidade: ");
    scanf("%d",&baralho[i].pontoturi);
-
-   while( getchar() != '\n');
+   
+   while(getchar() != '\n');
 
    printf("\nDigite o nome do estado dessa cidade: ");
    fgets(baralho[i].estado, 49, stdin);
+
 }
 
 
@@ -61,28 +68,30 @@ void processamento() //aqui é a função que processa as informações recebida
 {
 int i = 0;
 
-   if(baralho[i].area > 0) // caso seja um valor positivo e maior que zero efetuamos a conta
-   {
-   for(i = 0; i < 3; i++) 
+   
+   for(i = 0; i < 3; i++) //aqui garante que é para as 3 cartas
+
+{  //aqui iremos evitar divisão por 0
+ 
+   if(baralho[i].area > 0) //caso tenha um valor maior que zero ele faz a conta normalmente
    {
       baralho[i].densidade = baralho[i].populacao / baralho[i].area; 
    }
 
-   }
     
    else // caso não seja nós zeramos o resultado para não quebrar o código
    {
       baralho[i].densidade = 0;
    }
-
-   if(baralho[i].populacao > 0)
+}
+   for(i = 0; i < 3; i++)
    {
-    for(i = 0; i < 3; i++)
+    if(baralho[i].populacao > 0)
     {
     baralho[i].pibpercapita = baralho[i].pib / baralho[i].populacao;
     }
 
-   }
+   
 
    else
    {
@@ -90,7 +99,7 @@ int i = 0;
       baralho[i].pibpercapita = 0;
 
    }
-
+   }
 }
 
 
@@ -146,6 +155,8 @@ int escolhasaida() // nessa função nós iremos devolver as informações escol
 
 } while(opcao != 0); //aqui criamos um laço de repetição até o usuário decidir sair
 
+ printf("Obrigado pela participacao, Ate breve!"); //mensagem final
+
 return 0;
 
 }
@@ -161,4 +172,3 @@ return 0;
    return 0;
 
 }
-   
