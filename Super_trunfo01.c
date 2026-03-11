@@ -1,139 +1,164 @@
- #include <stdio.h>
+#include <stdio.h>
 
-struct carta //criando o modelo das cartas 
-
+struct carta //criando um molde para as cartas
 
 {
-
-int codigo;
-char nome[10];
-float populacao;
-float pib;
-float area;
-
-//variáveis derivadas das outras
-
-float densidade;
-float pibpercapita;
+   int codigo;
+   char cidade[50];
+   float populacao;
+   float pib;
+   float area;
+   int pontoturi;
+   char estado[50];
+   float pibpercapita;
+   float densidade;
 
 };
+struct carta baralho[3]; //quantidade de cartas do jogo
 
 
-int main() 
+void entrada() //função de entrada, onde recebemos as informações do usuário
+{
+int i = 0;
+
+ printf("\n------------Bem-vindo ao Super Trunfo------------\n");
+
+   for(i = 0; i < 3; i++) //isso garante que acontecerá para as 3 cartas
 
 {
+   printf("\n------------Cadastrando Carta %d ------------\n", i + 1);
 
-
-
-struct carta baralho[3];
-int codigodebusca; //variável criada para buscar o codigo do país
-int i; //variável criada para auxiliar a função "for"
-int encontrado;//irá nos ajudar a confirmar o código
-
-//cadastrando
-
-for(i = 0; i < 3; i++) /*isso faz com que considere para cada um 
-dos casos que satisfazem a condição dos parenteses*/
-
-{
-	
-	printf("\n-------------Cadastrando carta: %d -------------\n", i + 1); /*i+1 para ser 1
-	pois a contagem inicia em 0*/
-	
-	printf("Digite o codigo do pais: ");
-	scanf("%d", &baralho[i].codigo);
-	
-	printf("Digite o nome do pais: ");
-	scanf("%s", baralho[i].nome);
-	
-	printf("Digite a populacao do pais (em unidades): ");
-	scanf("%f", &baralho[i].populacao);
-	
-	printf("Digite o PIB do pais (em dolares): ");
-	scanf("%f", &baralho[i].pib);
-	
-	printf("Digite a area do pais (em km2): ");
-	scanf("%f", &baralho[i].area);
-	 
-    //cálculo de variáveis derivadas
-
-	if(baralho[i].area > 0) //evita erros por dividir por zero	
-{
-  baralho[i].densidade = baralho[i].populacao / baralho[i].area;
-}
- else
-{ 
-  baralho[i].densidade = 0; // zeramos a densidade por ter um valor inválido de área
-}
-	if(baralho[i].populacao > 0)
-	{		
-    baralho[i].pibpercapita = baralho[i].pib / baralho[i].populacao;
-	}
-
-	else
-	{
-	  baralho[i].pibpercapita = 0; //zeramos o pibpercapita por ter um valor de população inválido
-	}
-    
-}
-
-    //consultar cartas
-    
-    do
-{
-		printf("\n-------------Consulta de cartas SUPER TRUNFO-------------\n");
-		printf("Cartas disponiveis: \n");
-		for(i = 0; i < 3; i++)
-		{
-
-    printf("%d | %s\n", baralho[i].codigo,baralho[i].nome);
-    //isso nos dá a lista de países e aí podemos escolher qual queremos ver
-} 
-
-	printf("\nDigite o codigo para ver os atributos: (ou 0 para sair)\n");
-	scanf("%d", &codigodebusca);
-	
-    if(codigodebusca != 0)
-    {
-		encontrado = 0; //incializando variável
-		
-		for (i = 0; i < 3; i++) // isso nos garante que acontece com qualquer carta
-		{
-    if (baralho[i].codigo == codigodebusca)
-    {
-		printf(">>>>>>>>>Atributos<<<<<<<<<\n");
-		printf("Nome: %s\n",baralho[i].nome);
-		printf("Populacao: %.2f\n",baralho[i].populacao);
-		printf("PIB: %.2f\n",baralho[i].pib);
-		printf("Area: %.2f\n",baralho[i].area);
-		printf("Densidade demografica: %.2f\n",baralho[i].densidade);
-		printf("PIBperCapita: %.2f\n",baralho[i].pibpercapita);
-		encontrado = 1; //mostra que teve um código válido
-		
-		
-		
-	}
-
-}
-
-      if (!encontrado) //mostra que o código não foi encontrado
-      {
-		  
-		  printf("\nERRO, CODIGO INVALIDO! TENTE NOVAMENTE\n");
-	  }
-      
-
-}
-
-
-
-} while (codigodebusca != 0); /*enquanto código de busca for diferente 
-de 0 ele finaliza o programa*/ 
-
-   printf("\nPrograma encerrado, ate breve!\n");
+   printf("\nDigite o codigo da cidade: ");
+   scanf("%d",&baralho[i].codigo);
    
+   while( getchar() != '\n'); //um truque para evitar os buffers
+
+   printf("\nDigite o nome da cidade: ");
+   fgets(baralho[i].cidade, 49, stdin); //aqui usei fgets para caso tenha espaço no nome
+
+   printf("\nDigite a populacao da cidade: ");
+   scanf("%f",&baralho[i].populacao);
+   
+   printf("\nDigite o PIB da cidade: ");
+   scanf("%f",&baralho[i].pib);
+
+   printf("\nDigite a area da cidade: ");
+   scanf("%f",&baralho[i].area);
+
+   printf("\nDigite a quantidade de pontos turisticos da cidade: ");
+   scanf("%d",&baralho[i].pontoturi);
+
+   while( getchar() != '\n');
+
+   printf("\nDigite o nome do estado dessa cidade: ");
+   fgets(baralho[i].estado, 49, stdin);
+}
+
+
+}
+
+void processamento() //aqui é a função que processa as informações recebidas
+{
+int i = 0;
+
+   if(baralho[i].area > 0) // caso seja um valor positivo e maior que zero efetuamos a conta
+   {
+   for(i = 0; i < 3; i++) 
+   {
+      baralho[i].densidade = baralho[i].populacao / baralho[i].area; 
+   }
+
+   }
+    
+   else // caso não seja nós zeramos o resultado para não quebrar o código
+   {
+      baralho[i].densidade = 0;
+   }
+
+   if(baralho[i].populacao > 0)
+   {
+    for(i = 0; i < 3; i++)
+    {
+    baralho[i].pibpercapita = baralho[i].pib / baralho[i].populacao;
+    }
+
+   }
+
+   else
+   {
+
+      baralho[i].pibpercapita = 0;
+
+   }
+
+}
+
+
+
+int escolhasaida() // nessa função nós iremos devolver as informações escolhidas
+{
+   int i = 0;
+   int opcao = -1; // -1 para evitar alguns erros caso o código tenha mais cartas
+   int encontrou = 0; //declarando variável que nos auxiliará a juntar as informações
+   printf("\n------------Escolha sua carta-cidade digitando o codigo------------\n");
+  
+   do 
+   
+   {
+   for(i =0; i < 3; i++) //novamente isso garante que é para as 3 cartas
+   {
+   printf("\nNome:%s | Codigo:%d\n" ,baralho[i].cidade ,baralho[i].codigo);
+   }
+
+    printf("\nDigite o codigo da cidade que deseja consultar (0 para sair)\n");
+   scanf("%d",&opcao); //aqui nós pediremos para ele escolher a carta ou se deseja sair
+
+   if(opcao == 0) break; //encerra se digitar 0
+
+   for(i = 0; i < 3; i++)
+{
+   if(opcao == baralho[i].codigo) // se o código bater com o que foi digitado teremos: 
+    //aqui mostramos os atributos para a carta que o usuário decidir 
+   {
+
+   printf("\n------------Atributos de %s------------\n",baralho[i].cidade);
+   printf("\nNome: %s\n",baralho[i].cidade);
+   printf("\nEstado(UF): %s",baralho[i].estado);
+   printf("\nPopulacao: %.2f habitantes\n",baralho[i].populacao);
+   printf("\nPIB: %.2f dolares\n",baralho[i].pib);
+   printf("\nArea: %.2f (km^2)\n",baralho[i].area);
+   printf("\nPIBperCapita: %.2f\n",baralho[i].pibpercapita);
+   printf("\nDensidade demografica: %.2f\n",baralho[i].densidade);
+   printf("\nPontos turisticos: %d\n",baralho[i].pontoturi);
+    encontrou = 1; // indica que conseguimos realizar o cruzamento de dados
+    break; //para de procurar, pois já achamos a carta
+   } 
+
+  }
+
+    if(encontrou == 0)
+    {
+
+      printf("[!] Codigo invalido ou inexistente!\n");
+
+    }
+
+
+} while(opcao != 0); //aqui criamos um laço de repetição até o usuário decidir sair
+
+return 0;
+
+}
+
+    int main() //agora iremos para a função principal
+    
+{
+    //escolhendo por as funções nessa ordem o código funciona normalmente
+   entrada();
+   processamento();
+   escolhasaida();
+
    return 0;
 
-
-
 }
+   
