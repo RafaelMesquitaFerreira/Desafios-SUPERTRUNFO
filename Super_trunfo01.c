@@ -12,6 +12,7 @@ struct carta //criando um molde para as cartas
    char estado[50];
    float pibpercapita;
    float densidade;
+   float superpoder;
 
 };
 struct carta baralho[3]; //quantidade de cartas do jogo
@@ -28,18 +29,18 @@ int i = 0;
 {
    printf("\n------------Cadastrando Carta %d ------------\n", i + 1);
 
-   printf("\nDigite o codigo da cidade: ");
+   printf("\nDigite o codigo da cidade(Ex 1, 2 ou 3): ");
    scanf("%d",&baralho[i].codigo);
-
-   printf("\nDigite o nome da cidade: ");
-   fgets(baralho[i].cidade, 49, stdin); //aqui usei fgets para caso tenha espaço no nome
 
    while( getchar() != '\n'); //um truque para evitar os buffers
 
+   printf("\nDigite o nome da cidade: ");
+   fgets(baralho[i].cidade, 49, stdin); //aqui usei fgets para caso tenha espaço no nome
+   
    printf("\nDigite a populacao da cidade: ");
    scanf("%f",&baralho[i].populacao);
    
-   while(getchar() != '\n');
+   while( getchar() != '\n'); 
 
    printf("\nDigite o PIB da cidade (em dolares): ");
    scanf("%f",&baralho[i].pib);
@@ -99,7 +100,11 @@ int i = 0;
       baralho[i].pibpercapita = 0;
 
    }
+   baralho[i].superpoder = (baralho[i].area) + (1 / (baralho[i].densidade)) + (baralho[i].pib) + (baralho[i].pibpercapita) + (baralho[i].pontoturi) + (baralho[i].populacao);
+
+
    }
+
 }
 
 
@@ -107,7 +112,7 @@ int i = 0;
 int escolhasaida() // nessa função nós iremos devolver as informações escolhidas
 {
    int i = 0;
-   int opcao = -1; // -1 para evitar alguns erros caso o código tenha mais cartas
+   int opcao = -1; // -1 para evitar problemas caso tenha mais cartas 
    int encontrou = 0; //declarando variável que nos auxiliará a juntar as informações
    printf("\n------------Escolha sua carta-cidade digitando o codigo------------\n");
   
@@ -116,14 +121,14 @@ int escolhasaida() // nessa função nós iremos devolver as informações escol
    {
    for(i =0; i < 3; i++) //novamente isso garante que é para as 3 cartas
    {
-   printf("\nNome:%s | Codigo:%d\n" ,baralho[i].cidade ,baralho[i].codigo);
+   printf("\nNome: %s | Codigo: %d\n" ,baralho[i].cidade ,baralho[i].codigo);
    }
 
-    printf("\nDigite o codigo da cidade que deseja consultar (0 para sair)\n");
+    printf("\nDigite o codigo da cidade que deseja consultar (0 para sair ou 7 para jogar)\n");
    scanf("%d",&opcao); //aqui nós pediremos para ele escolher a carta ou se deseja sair
 
    if(opcao == 0) break; //encerra se digitar 0
-
+{
    for(i = 0; i < 3; i++)
 {
    if(opcao == baralho[i].codigo) // se o código bater com o que foi digitado teremos: 
@@ -139,11 +144,47 @@ int escolhasaida() // nessa função nós iremos devolver as informações escol
    printf("\nPIBperCapita: %.2f\n",baralho[i].pibpercapita);
    printf("\nDensidade demografica: %.2f\n",baralho[i].densidade);
    printf("\nPontos turisticos: %d\n",baralho[i].pontoturi);
+   printf("\nSuper Poder: %.2f\n",baralho[i].superpoder);
     encontrou = 1; // indica que conseguimos realizar o cruzamento de dados
     break; //para de procurar, pois já achamos a carta
    } 
 
   }
+
+   }
+
+   if(opcao == 7)
+   {
+      printf("\n------------Bem-vindo ao SUPER TRUNFO------------\n");
+
+      int ncarta1 = 0;
+      int ncarta2 = 0;
+      printf("\nNão escreva o codigo, escreva a carta, por exemplo: 1, 2 ou 3!\n");
+      printf("\n[Jogador 1]\nEscolha a primeira carta para comparar(ex: 1, 2 ou 3): \n");
+      scanf("%d",&ncarta1);
+      
+      while(getchar() != '\n');
+
+      printf("\n[Jogador 2]\nEscolha a segunda carta para comparar(ex 1, 2 ou 3): \n");
+      scanf("%d",&ncarta2);
+
+      if(baralho[ncarta1].superpoder > baralho[ncarta2].superpoder)
+     { 
+      printf("\nParabens jogador 1, sua carta %s venceu!\n",baralho[i].cidade);
+         encontrou = 1;
+     }      
+      else if (baralho[ncarta2].superpoder > baralho[ncarta1].superpoder)
+      {
+         printf("\nParabens jogador 2, sua carta %s venceu!\n",baralho[i].cidade);
+         encontrou = 1;
+      }
+      else 
+      {
+         printf("Ops! Tivemos um empate!");
+         encontrou = 1;
+      }
+
+   }
 
     if(encontrou == 0)
     {
@@ -172,3 +213,4 @@ return 0;
    return 0;
 
 }
+   
